@@ -1,0 +1,98 @@
+.container-cardform{
+  background-color: rgba(44,44,44,1);
+  filter: blur(100%);
+  overflow: hidden;
+}
+
+.formCard{
+  background-color: rgba(128, 128, 128, 0.486);
+  border-radius: 16px;
+  position: relative;
+}
+
+.headerForm{
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: -20%;
+  left: 0;
+}
+
+.icon-head-content{
+  width: 5em;
+  height: 5em;
+  background-color: #353535;
+  border-radius: 100%;
+}
+
+.headerForm img{
+  width: 100%;
+  height: auto;
+  color: #fff;
+  filter:invert(100%);
+}
+
+.sectInput{
+  border-bottom: 1px #fff solid;
+}
+
+.sectInput .contentIcon{
+  width: 10%;
+  height: auto;
+}
+
+.inputsForm{
+  overflow: none;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  width: 90%;
+}
+
+.inputsForm::placeholder{
+  color: #fff
+}
+
+.inputsForm:focus{
+  overflow: none;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+}
+
+.icons-form{
+  filter: invert(100%);
+}
+
+.error-message{
+  width: 100%;
+  height: 10px;
+}
+
+.button-content{
+  width: 100%;
+  height: auto;
+}
+
+.button-content button{
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  padding: 0.5em 0 0.5em 0;
+  transition: 0.3s;
+}
+
+.button-form{
+  background-color: rgb(177, 177, 177);
+  color: black;
+}
+
+.button-disabled{
+  background-color: rgb(70, 70, 70);
+  color: rgb(148, 148, 148);
+}
+
+.button-form:hover{
+  opacity: 50%;
+}

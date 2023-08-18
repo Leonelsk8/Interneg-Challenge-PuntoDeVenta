@@ -1,0 +1,58 @@
+.bg-colorDark{
+  background-color: rgba(44,44,44,1);
+}
+
+.bodyModal{
+  background-color: rgb(26, 26, 26);
+  color: #fff;
+}
+
+.headModal{
+  background-color: rgb(65, 65, 65);
+  color: #fff;
+}
+
+.buttonCloseModal{
+  background-color: rgb(24, 24, 24);
+  border-radius: 10px;
+  color: #fff;
+  border: 1px solid gray;
+  transition: 0.3s;
+}
+
+.buttonCloseModal:hover{
+  opacity: 70%;
+}
+
+.alert{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.butonModal{
+  background-color: rgb(43, 43, 43);
+  color:#fff;
+  border-radius: 10px;
+  width: 100%;
+  border: 1px gray solid;
+  transition: 0.3s;
+}
+
+.butonModal:hover{
+  opacity: 50%;
+}
+
+.modalButtDisabled{
+  opacity: 50%;
+}
+
+.swal2-popup{
+  background-color: rgba(0, 0, 0, 0.767) !important;
+  color: #fff !important;
+  border: 1px solid gray;
+}
