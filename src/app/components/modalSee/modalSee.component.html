@@ -1,0 +1,69 @@
+<div class="modal-header headModal">
+  <h4 class="modal-title">{{clientOrProduct}}</h4>
+  <button type="button" class="close buttonCloseModal px-3 py-2" aria-label="Close" (click)="modal.dismiss()">
+    <span aria-hidden="true">X</span>
+  </button>
+</div>
+<div class="modal-body bodyModal">
+  <div class="d-flex flex-column align-items-center" *ngIf="clientOrProduct==='Producto'">
+    <div class="d-flex flex-column align-items-center">
+      <h5>NOMBRE</h5>
+      <p>{{productData.nombre}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>CODIGO</h5>      
+      <p>{{productData.codigo}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>PRECIO</h5>
+      <p>${{productData.precio}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>NUMERO</h5>
+      <p>{{productData.numero}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>ID</h5>
+      <p>{{productData.id}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>CREADO</h5>
+      <p>{{productData.created_at?.slice(0,10)}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>EDITADO</h5>
+      <p>{{productData.updated_at?.slice(0,10)}}</p>
+    </div>
+  </div>
+
+  <div class="d-flex flex-column align-items-center" *ngIf="clientOrProduct==='Cliente'">
+    <div class="d-flex flex-column align-items-center">
+      <h5>NOMBRE</h5>
+      <p>{{clientData.nombre}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>CUIT</h5>      
+      <p>{{clientData.cuit_formateado}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>EMAIL</h5>
+      <p>{{clientData.email}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>TELEFONO</h5>
+      <p>{{clientData.telefono}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>DOMICILIO</h5>
+      <p>{{clientData.domicilio}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>CREADO</h5>
+      <p>{{clientData.created_at?.slice(0,10)}}</p>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h5>EDITADO</h5>
+      <p>{{clientData.updated_at?.slice(0,10)}}</p>
+    </div>
+  </div>
+</div>

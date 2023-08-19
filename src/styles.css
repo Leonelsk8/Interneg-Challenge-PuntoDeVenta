@@ -56,3 +56,7 @@
   color: #fff !important;
   border: 1px solid gray;
 }
+
+.hiddenColumns{
+  overflow-x: hidden;
+}

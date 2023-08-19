@@ -1,9 +1,11 @@
-export interface DataProduct{
+export interface DataClient{
   nombre?:string;
-  codigo?:string;
-  precio?:number;
+  cuit?:string;
+  cuit_formateado?:string;
+  email?:number;
   id?:number;
-  numero?:string;
+  domicilio?:string;
+  telefono?:string;
   created_at?:string;
   updated_at?:string;
 }
@@ -17,7 +19,7 @@ interface Pagination{
   totalResults?:number;
 }
 
-export interface Products{
-  data?:DataProduct[];
+export interface Clients{
+  data?:DataClient[];
   pagination?:Pagination;
 }

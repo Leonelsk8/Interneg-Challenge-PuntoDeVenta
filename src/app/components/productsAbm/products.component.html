@@ -6,7 +6,7 @@
       <img src="../../../assets/icons/search.svg">
     </button>
   </div>
-  <button class="buttons-table px-3" (click)="modalOpen(1, null)">
+  <button class="buttons-table px-3 d-flex align-items-center" (click)="modalOpen(1, null)">
     <img src="../../../assets/icons/plus.svg" class="me-2">
     Crear
   </button>
@@ -29,16 +29,16 @@
 </div>
 <div class="col-12 products-table">
   <div class="row product-row p-0" *ngFor="let products of productData.data">
-    <div class="col-3 py-3">
+    <div class="col-3 py-3 hiddenColumns">
       <p>{{products.nombre}}</p>
     </div>
-    <div class="col-3 py-3">
+    <div class="col-3 py-3 hiddenColumns">
       <p>{{products.codigo}}</p>
     </div>
-    <div class="col-2 py-3">
+    <div class="col-2 py-3 hiddenColumns">
       <p>${{products.precio}}</p>
     </div>
-    <div class="col-4 py-3 d-flex justify-content-center">
+    <div class="col-4 py-3 d-flex justify-content-center hiddenColumns">
       <button class="me-2 buttons-table px-3 d-flex align-items-center" (click)="seeProduct(products.id)">
         <img src="../../../assets/icons/eye.svg" class="me-2">
         Ver

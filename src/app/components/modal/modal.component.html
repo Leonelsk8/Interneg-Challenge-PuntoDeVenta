@@ -1,30 +1,61 @@
 <div class="modal-header headModal">
-  <h4 class="modal-title">{{optionCreateEdit===1?'Crear Producto':'Editar Producto'}}</h4>
+  <h4 class="modal-title">{{optionCreateEdit===1? 'Crear ':'Editar '}}{{clientOrProduct}}</h4>
   <button type="button" class="close buttonCloseModal px-3 py-2" aria-label="Close" (click)="modal.dismiss()">
     <span aria-hidden="true">X</span>
   </button>
 </div>
 <div class="modal-body bodyModal">
-  <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="nameProduct">Nombre</label>
-      <input type="text" class="form-control" id="nameProduct" [placeholder]="optionCreateEdit===1?'Nombre':dataProduct.nombre" formControlName="nombre" maxlength="30">
-    </div>
-    <div class="d-flex justify-content-between mt-2">
+  <form [formGroup]="clientOrProduct === 'Producto' ? productForm : clientForm" (ngSubmit)="onSubmit()">
+
+    <div *ngIf="clientOrProduct === 'Producto'">
       <div class="form-group">
-        <label for="codeProduct">Codigo</label>
-        <input type="text" class="form-control" id="codeProduct" [placeholder]="optionCreateEdit===1?'Codigo':dataProduct.codigo" formControlName="codigo" maxlength="30">
+        <label for="nameProduct">Nombre</label>
+        <input type="text" class="form-control" id="nameProduct" [placeholder]="optionCreateEdit===1?'Nombre':dataElement.nombre" formControlName="nombre" maxlength="30">
+      </div>
+      <div class="d-flex justify-content-between mt-2">
+        <div class="form-group">
+          <label for="codeProduct">Codigo</label>
+          <input type="text" class="form-control" id="codeProduct" [placeholder]="optionCreateEdit===1?'Codigo':dataElement.codigo" formControlName="codigo" maxlength="30">
+        </div>
+        <div class="form-group">
+          <label for="priceProduct" class="me-2">Precio $</label>
+          <input type="number" class="form-control" id="priceProduct" step="0.01" formControlName="precio" (input)="onInput($event)">
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="clientOrProduct === 'Cliente'">
+      <div class="d-flex justify-content-between mt-2">
+        <div class="form-group">
+          <label for="nameClient">Nombre</label>
+          <input type="text" class="form-control" id="nameClient" [placeholder]="optionCreateEdit===1?'Nombre':dataElement.nombre" formControlName="nombre" maxlength="30">
+        </div>
+        <div class="form-group">
+          <label for="cuitClient">CUIT</label>
+          <input type="text" class="form-control" id="cuitClient" [placeholder]="optionCreateEdit===1?'Cuit':dataElement.cuit" formControlName="cuit" maxlength="30">
+        </div>
+      </div>
+      <div class="d-flex justify-content-between mt-2">
+        <div class="form-group">
+          <label for="domicilioClient">Domicilio</label>
+          <input type="text" class="form-control" id="domicilioClient" [placeholder]="optionCreateEdit===1?'Domicilio':dataElement.domicilio" formControlName="domicilio" maxlength="30">
+        </div>
+        <div class="form-group">
+          <label for="telefonoClient">Telefono</label>
+          <input type="text" class="form-control" id="telefonoClient" [placeholder]="optionCreateEdit===1?'Telefono':dataElement.telefono" formControlName="telefono" maxlength="30">
+        </div>
       </div>
       <div class="form-group">
-        <label for="priceProduct" class="me-2">Precio $</label>
-        <input type="number" class="form-control" id="priceProduct" step="0.01" formControlName="precio" (input)="onInput($event)">
+        <label for="emailClient">Email</label>
+        <input type="email" class="form-control" id="emailClient" [placeholder]="optionCreateEdit===1?'Email':dataElement.email" formControlName="email" maxlength="30">
       </div>
     </div>
+
     <button 
       type="submit" 
       class="butonModal mt-3 py-2" 
-      [disabled]="createForm.invalid"
-      [ngClass]="{'modalButtDisabled':createForm.invalid}"
+      [disabled]="clientOrProduct === 'Producto' ? productForm.invalid : clientForm.invalid"
+      [ngClass]="{'modalButtDisabled':clientOrProduct === 'Producto' ? productForm.invalid: clientForm.invalid}"
     >
       {{optionCreateEdit===1?'Crear':'Editar'}}
     </button>

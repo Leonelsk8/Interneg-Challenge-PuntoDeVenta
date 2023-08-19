@@ -2,7 +2,7 @@ import { Component, OnInit} from "@angular/core";
 import { APIservice } from "../../shared/services/API.services/API.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import {modalComponent} from '../modal/modal.component';
-import { modalSeeProductComponent } from "../modalSeeProduct/modalSeeProduct.component";
+import { modalSeeComponent } from "../modalSee/modalSee.component";
 import { Products } from "../../shared/models/productsModel/products.model";
 import Swal from 'sweetalert2';
 
@@ -69,7 +69,8 @@ export class productsComponent implements OnInit {
   modalOpen(value:any, dataProduct:any){
     const modalRef = this.modalService.open(modalComponent);
     modalRef.componentInstance.optionCreateEdit= value;
-    modalRef.componentInstance.dataProduct= dataProduct;
+    modalRef.componentInstance.dataElement= dataProduct;
+    modalRef.componentInstance.clientOrProduct = 'Producto';
     modalRef.componentInstance.productDataChanged.subscribe((updatedData:object) => {
       this.productData = updatedData; 
     });
@@ -116,12 +117,17 @@ export class productsComponent implements OnInit {
   }
 
   seeProduct(value:any){
-    const modalRef = this.modalService.open(modalSeeProductComponent);
-    modalRef.componentInstance.idProduct= value;
+    this.api.getDataById(value, this.endpoint).subscribe(data=>{
+      const modalRef = this.modalService.open(modalSeeComponent);
+      modalRef.componentInstance.productData= data.data;
+      modalRef.componentInstance.clientOrProduct= 'Producto';
+    })
   }
 
   deleteProduct(id:any){
     this.sweetAlertDelete(id);
   } 
+
+
 
 }

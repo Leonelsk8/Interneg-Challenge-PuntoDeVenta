@@ -14,26 +14,36 @@ export class modalComponent{
 
   @Input() optionCreateEdit:any 
 
-  @Input() dataProduct:any
+  @Input() dataElement:any
+
+  @Input() clientOrProduct:any
 
   @Output() productDataChanged = new EventEmitter<object>();
-  endpoint:string = '/productos'
+
   openAlert:boolean = false;
   typeAlert:string = '';
   messageAlert:string = '';
 
   
-  createForm = new FormGroup({
-    'nombre': new FormControl<string>('', Validators.required),
-    'codigo': new FormControl<string>('', Validators.required),
+  productForm = new FormGroup({
+    'nombre': new FormControl<string>('', [Validators.required, Validators.maxLength(30)]),
+    'codigo': new FormControl<string>('', [Validators.required, Validators.maxLength(30)]),
     'precio': new FormControl<number>(0.01, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
+  })
+
+  clientForm = new FormGroup({
+    'nombre': new FormControl<string>('', [Validators.required, Validators.maxLength(30)]),
+    'cuit': new FormControl<string>('', [Validators.required, Validators.maxLength(30)]),
+    'email': new FormControl<string>('', [Validators.required, Validators.email, Validators.maxLength(30)]),
+    'domicilio': new FormControl<string>('', [Validators.required, Validators.maxLength(30)]),
+    'telefono': new FormControl<string>('', [Validators.required, Validators.maxLength(30)])
   })
 
   onInput(event: any) {
     const inputValue = parseFloat(event.target.value);
     if (!isNaN(inputValue)) {
       const formattedValue = parseFloat(inputValue.toFixed(2));
-      this.createForm.get('precio')?.setValue(formattedValue);
+      this.productForm.get('precio')?.setValue(formattedValue);
     }
   }
 
@@ -45,50 +55,68 @@ export class modalComponent{
   }
 
   sendDataToPanel(){
-    this.api.getData(this.endpoint).subscribe(data=>{
+    this.api.getData(this.clientOrProduct==='Producto'?'/productos':'/clientes').subscribe(data=>{
       this.productDataChanged.emit(data);
     })
   }
 
   create(){
-    this.api.createData(this.createForm.value, this.endpoint).subscribe(data=>{
+    this.api.createData(this.clientOrProduct==='Producto'? this.productForm.value : this.clientForm.value, this.clientOrProduct==='Producto'?'/productos':'/clientes').subscribe(data=>{
       if(data.success){
         this.sendDataToPanel();
         this.typeAlert = 'success';
-        this.messageAlert = '¡Producto creado con exito!';
+        this.messageAlert = `¡${this.clientOrProduct} creado con exito!`;
         this.startAlert();
       }else{
         this.typeAlert = 'danger';
-        this.messageAlert = '¡El producto no se pudo crear!';
+        this.messageAlert = `¡El ${this.clientOrProduct} no se pudo crear!`;
         this.startAlert();
       }
     })
   }
 
   edit(){
-    const payload = {
-      nombre: this.createForm.value.nombre,
-      codigo: this.createForm.value.codigo,
-      precio: this.createForm.value.precio,
-      id: this.dataProduct.id
+    let payload:object;
+    if(this.clientOrProduct === 'Producto'){
+      payload = {
+        nombre: this.productForm.value.nombre,
+        codigo: this.productForm.value.codigo,
+        precio: this.productForm.value.precio,
+        id: this.dataElement.id
+      }
+    }else{
+      payload = {
+        nombre: this.clientForm.value.nombre,
+        cuit: this.clientForm.value.cuit,
+        email: this.clientForm.value.email,
+        domicilio: this.clientForm.value.domicilio,
+        telefono: this.clientForm.value.telefono,
+        id: this.dataElement.id
+      }
     }
-    this.api.editData(payload, this.dataProduct.id, this.endpoint).subscribe(data=>{
+    this.api.editData(payload, this.dataElement.id, this.clientOrProduct==='Producto'?'/productos':'/clientes').subscribe(data=>{
       if(data.success){
         this.sendDataToPanel();
         this.typeAlert = 'success';
-        this.messageAlert = '¡Producto editado con exito!';
+        this.messageAlert = `¡${this.clientOrProduct} editado con exito!`;
         this.startAlert();
       }else{
         this.typeAlert = 'danger';
-        this.messageAlert = '¡El producto no se pudo editar!';
+        this.messageAlert = `¡El ${this.clientOrProduct} no se pudo editar!`;
         this.startAlert();
       }
     })
   }
 
   onSubmit() {
-    if (this.createForm.valid) {
-      this.optionCreateEdit === 1 ? this.create() : this.edit()
+    if(this.clientOrProduct === 'Producto'){
+      if (this.productForm.valid) {
+        this.optionCreateEdit === 1 ? this.create() : this.edit()
+      }
+    }else{
+      if (this.clientForm.valid) {
+        this.optionCreateEdit === 1 ? this.create() : this.edit()
+      }
     }
   }
 }
