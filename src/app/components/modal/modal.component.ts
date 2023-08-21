@@ -18,7 +18,7 @@ export class modalComponent{
 
   @Input() clientOrProduct:any
 
-  @Output() productDataChanged = new EventEmitter<object>();
+  @Output() DataChanged = new EventEmitter();
 
   openAlert:boolean = false;
   typeAlert:string = '';
@@ -56,7 +56,7 @@ export class modalComponent{
 
   sendDataToPanel(){
     this.api.getData(this.clientOrProduct==='Producto'?'/productos':'/clientes').subscribe(data=>{
-      this.productDataChanged.emit(data);
+      this.DataChanged.emit(data);
     })
   }
 

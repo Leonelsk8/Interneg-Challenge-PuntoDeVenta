@@ -1,0 +1,135 @@
+<div class="col-12 d-flex justify-content-between">
+  <h3>Nueva venta</h3>
+  <button 
+    [className]="productsSelected.length>0 && selectedDate ? 'buttons-table': 'buttons-disabled'"
+    [disabled]="productsSelected.length===0 || !selectedDate"
+    (click)="createSale()"
+  >
+    Crear venta
+  </button>
+</div>
+
+<div class="row justify-content-center mt-2">
+  <div class="col-12 col-md-9 col-lg-7">
+    <div class="row pt-3">
+  
+      <div class="col-12 containerSearch p-0">
+        <input type="text" placeholder="Búsqueda de producto" class="searchData px-3 py-2" [(ngModel)]="inputValueSearchProduct" (input)="searchProducts()">
+        <div class="py-3 containResults" *ngIf="productsLiveSearch.length>0">
+          <button *ngFor="let product of productsLiveSearch" class="buttonResults pt-3" (click)="selectProduct(product.id,product.precio, product.nombre)">
+            <div class="d-flex justify-content-between px-3 align-items-center">
+              <p>{{product.nombre}}</p>
+              <p>{{product.precio}}$</p>
+            </div>
+          </button>
+        </div>
+      </div>
+  
+      <div class="col-12 mt-3">
+        <div class="row">
+  
+          <div class="col-12 text-white fw-semibold">
+            <div class="row bg-colorDark">
+              <div class="col-3 col-md-2 border-1 border-end border-secondary pt-3">
+                <p>Cant.</p>
+              </div>
+              <div class="col-3 col-md-4 border-1 border-end border-secondary pt-3">
+                <p>Nombre</p>
+              </div>
+              <div class="col-3 col-md-3 border-1 border-end border-secondary pt-3">
+                <p>Unitario</p>
+              </div>
+              <div class="col-3 col-md-3 pt-3">
+                <p>Subtotal</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12 colProducts">
+            <div *ngIf="productsSelected.length > 0" class="contentItems">
+              <div class="row rowItems" *ngFor="let product of productsSelected; let i = index">
+                <div class="col-3 col-md-2 px-2 py-2">
+                  <div class=" d-flex align-items-center justify-content-center">
+                    <button class="buttonIncrement rounded-start" (click)="incrementDecrement('resta',i)">-</button>
+                    <p class="text-center cantText mb-0">{{product.cantidad}}</p>
+                    <button class="buttonIncrement rounded-end" (click)="incrementDecrement('suma',i)">+</button>
+                  </div>
+                </div>
+                <div class="col-3 col-md-4 py-2 ps-2">
+                  <p class='mb-0'>{{product.nombre}}</p>
+                </div>
+                <div class="col-3 col-md-3 py-2 ps-2">
+                  <p class='mb-0'>${{product.precio_unitario}}</p>
+                </div>
+                <div class="col-3 col-md-3 py-2 ps-2">
+                  <p class='mb-0'>${{product.importe_total}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12 text-white fw-semibold">
+            <div class="row bg-colorDark">
+              <div class="col-6 col-md-9 border-1 border-end border-secondary pt-3">
+                <p class="text-end">TOTAL:</p>
+              </div>
+              <div class="col-6 col-md-3 pt-3">
+                <p>${{import_total}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+  <div class="col-12 col-md-6 col-lg-5 mt-3 mt-lg-0">
+    <div class="row contentClientSelect ms-2 pt-3">
+      <div class="col-12">
+        <div class="containerSearch">
+          <input *ngIf="id_client===0 && name_client === ''" type="text" class="searchData px-3 py-2" placeholder="Búsqueda de cliente" [(ngModel)]="inputValueSearchClient" (input)="searchClients()">
+          <div class="py-3 containResults" *ngIf="clientsLiveSearch.length>0">
+            <button *ngFor="let client of clientsLiveSearch" class="buttonResults pt-3" (click)="selectClient(client.id,client.nombre)">
+              <div class="d-flex justify-content-between px-3 align-items-center">
+                <p>{{client.nombre}}</p>
+                <p>{{client.cuit_formateado}}</p>
+              </div>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="name_client !== ''" class="py-3">
+          <h6>Cliente seleccionado:</h6>
+          <div class="d-flex justify-content-between p-2 clientSelect mt-2 align-items-center">
+            <h5 class="mb-0">{{name_client}}</h5>
+            <button class="btn btn-danger" (click)="removeClient()">X</button>
+          </div>
+        </div>
+        <div *ngIf="name_client === ''" class="mt-4">
+          <h5 class="text-center">Cliente sin seleccionar</h5>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="container mt-3">
+          <h6>Seleccionar fecha</h6>
+          <div class="d-flex justify-content-center">
+            <ngb-datepicker [(ngModel)]="selectedDate" (dateSelect)="onDateSelection($event)"></ngb-datepicker>
+          </div>
+        
+          <div class="mt-3" *ngIf="selectedDate">
+            <p>Fecha: {{ selectedDate.year }}/{{ selectedDate.month }}/{{ selectedDate.day }}</p>
+          </div>
+          <div class="mt-3" *ngIf="!selectedDate">
+            <p>Fecha: ----/--/--</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+  
+      </div>
+    </div>
+  </div>
+  <ngb-alert *ngIf="openAlert" [type]="typeAlert" (closed)="openAlert = false" class="alert">
+    {{ messageAlert }}
+  </ngb-alert>
+</div>

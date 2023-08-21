@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component} from "@angular/core";
 
 @Component({
   selector: 'panel-component',
@@ -8,10 +8,15 @@ import { Component } from "@angular/core";
 
 export class panelComponent{
   constructor(){}
-  option:number = 1;
+  optionClientOrProduct:number = 1;
+  activePanelMobile:boolean = false;
 
   changeOption(opt:number){
-    this.option = opt
+    this.optionClientOrProduct = opt
+  }
+
+  changePanelToggle(value: boolean){
+    this.activePanelMobile = value;
   }
 
 }

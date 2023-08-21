@@ -14,5 +14,4 @@ export class modalSeeComponent{
   @Input() clientOrProduct:any;
   @Input() clientData:DataClient = {};
   @Input() productData:DataProduct={};
-
 }

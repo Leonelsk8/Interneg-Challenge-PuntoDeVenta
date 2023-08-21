@@ -1,0 +1,112 @@
+.columns{
+  background-color: gray;
+  height: 100%;
+}
+
+.products-table .product-row:nth-child(2n-1){
+  background-color: #f1f1f1;
+  color:#000000;
+}
+
+.products-table .product-row:nth-child(2n){
+  background-color: rgb(214, 214, 214);;
+  color:black;
+}
+
+.products-table .product-row:last-child{
+  border-bottom: 1px solid white;
+}
+
+.input-search{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border: 1px solid rgba(184, 184, 184, 0.363);
+  
+}
+
+.input-search:focus{
+  overflow: none;
+  border: 1px solid rgb(184, 184, 184);
+  outline: none;
+}
+
+
+.button-delete{
+  background-color: rgb(155, 41, 41);
+  color:#fff;
+  border-radius: 15px;
+  border: 1px solid gray;
+  transition: 0.3s;
+}
+
+.button-delete:hover{
+  background-color: #be2e2e;
+  transform: scale(105%);
+}
+
+.loaderCont{
+  height: 20em;
+  background-color: #0000005e;
+}
+
+.reloadNewSearch{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: rgba(44,44,44,1);
+  animation: 0.3s linear fadeReload;
+}
+
+@keyframes fadeReload {
+  0%{
+    opacity: 0%;
+  }
+  100%{
+    opacity: 100%;
+  }
+}
+
+.reloadNewSearch button{
+  width: 50%;
+  height: 100%;
+  color:#fff;
+  outline: none;
+  border: none;
+  background-color: rgba(44,44,44,1);
+  transition: 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reloadNewSearch img{
+  filter: invert(100%);
+}
+
+.reloadNewSearch button:first-child{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-right: 1px solid rgb(155, 155, 155);
+}
+
+.reloadNewSearch button:last-child{
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.reloadNewSearch button:hover{
+  opacity: 50%;
+}
+
+
+@media (width < 768px){
+  .tableMobile{
+    width: 100%;
+    overflow-x: scroll;
+  }
+
+  .contentTableMobile{
+    width: 250%;
+  }
+}

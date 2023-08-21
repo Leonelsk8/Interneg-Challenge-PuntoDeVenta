@@ -4,8 +4,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
-import { clientsComponents } from './components/cientsAbm/clients.component';
-import { productsComponent } from './components/productsAbm/products.component';
+import { tableAbmComponent } from './components/tableABM/table.component';
 import { loginComponent } from './components/login/login.component';
 import { LoginPage } from './pages/Login/login.page';
 import { HomePage } from './pages/Home/home.page';
@@ -15,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbDatepickerModule } from "@ng-bootstrap/ng-bootstrap";
 import { modalComponent } from './components/modal/modal.component';
 import { modalSeeComponent } from './components/modalSee/modalSee.component';
+import { saleComponent } from './components/newSale/sale.component';
 
 @NgModule({
   declarations: [
@@ -22,10 +22,10 @@ import { modalSeeComponent } from './components/modalSee/modalSee.component';
     loginComponent,
     headerComponent,
     panelComponent,
-    productsComponent,
-    clientsComponents,
+    tableAbmComponent,
     modalComponent,
     modalSeeComponent,
+    saleComponent,
     LoginPage,
     HomePage
   ],
@@ -36,7 +36,7 @@ import { modalSeeComponent } from './components/modalSee/modalSee.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

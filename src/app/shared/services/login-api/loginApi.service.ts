@@ -1,24 +1,18 @@
 import { Injectable } from "@angular/core";
 import { environment } from "src/app/enviroments/enviroment";
 import { Router } from "@angular/router";
+import { HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class loginApi {
-  constructor(private router: Router){
-
-  }
+  constructor(private router: Router, private http: HttpClient){}
 
   login(Payload:object){
-     return fetch(`${environment.apiUrl}/login`,{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(Payload)
-    })
+    return this.http.post<any>(`${environment.apiUrl}/login`,Payload)
+
   }
 
   addTokenToStorage(token:string, userName:string){

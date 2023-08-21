@@ -26,6 +26,7 @@ export class APIservice{
   }
 
   createData(newData:object, endpoint:string): Observable<any>{
+    console.log(newData, endpoint)
     return this.http.post<any>(`${environment.apiUrl}${endpoint}`,newData, this.httpOptions)
   }
 

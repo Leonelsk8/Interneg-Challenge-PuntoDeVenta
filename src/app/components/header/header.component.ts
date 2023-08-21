@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { Router } from "@angular/router";
 import { getToken } from "../../shared/services/getToken/getToken.service";
 
@@ -10,6 +10,8 @@ import { getToken } from "../../shared/services/getToken/getToken.service";
 
 export class headerComponent implements OnInit{
   constructor(private route: Router, private getUserData: getToken){}
+  auxBoolean:boolean = false;
+  @Output() activePanelLeft = new EventEmitter<boolean>()
 
   userData:any;
 
@@ -20,6 +22,11 @@ export class headerComponent implements OnInit{
   logout(){
     localStorage.removeItem("userData");
     this.route.navigate(['/login']);
+  }
+
+  changePanel(){
+    this.activePanelLeft.emit(!this.auxBoolean);
+    this.auxBoolean = !this.auxBoolean;
   }
   
 }

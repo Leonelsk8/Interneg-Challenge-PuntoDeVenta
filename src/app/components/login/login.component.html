@@ -1,12 +1,24 @@
 <div class="container-fluid vh-100 vw-100 container-cardform">
+  <div class="cubes">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
   <div class="row justify-content-center align-items-center vh-100">
-    <div class="col-3 formCard px-5 pb-3">
+    <div class="col-11 col-md-6 col-lg-3 formCard px-5 pb-3">
       <div class="headerForm d-flex justify-content-center align-items-center">
         <div class="icon-head-content p-3">
           <img src="../../../assets/icons/avatar.svg" alt="avatar icon">
         </div>
       </div>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-5">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-5 py-3">
         <div class="mb-3">
           <div class="d-flex sectInput">
             <div class='contentIcon'>
@@ -38,5 +50,11 @@
         </div>
       </form>
     </div>
+  </div>
+  <ngb-alert *ngIf="openAlert" [type]="typeAlert" (closed)="openAlert = false" class="alert">
+    {{ messageAlert }}
+  </ngb-alert>
+  <div class="content-loader" *ngIf="startLoader">
+    <span class="loader"></span>
   </div>
 </div>

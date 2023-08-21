@@ -23,4 +23,5 @@ export class getToken{
     const userData = this.getTokenStorage();
     return JSON.parse(userData as never)
   }
+
 }
