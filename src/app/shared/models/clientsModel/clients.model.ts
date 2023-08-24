@@ -9,17 +9,3 @@ export interface DataClient{
   created_at?:string;
   updated_at?:string;
 }
-
-interface Pagination{
-  actualPage?:number;
-  nextPage?:number;
-  prevPage?:number;
-  resultPerPage?: number;
-  totalPages?:number;
-  totalResults?:number;
-}
-
-export interface Clients{
-  data?:DataClient[];
-  pagination?:Pagination;
-}

@@ -7,17 +7,3 @@ export interface DataProduct{
   created_at?:string;
   updated_at?:string;
 }
-
-interface Pagination{
-  actualPage?:number;
-  nextPage?:number;
-  prevPage?:number;
-  resultPerPage?: number;
-  totalPages?:number;
-  totalResults?:number;
-}
-
-export interface Products{
-  data?:DataProduct[];
-  pagination?:Pagination;
-}

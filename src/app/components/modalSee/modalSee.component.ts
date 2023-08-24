@@ -2,7 +2,7 @@ import { Component, Input} from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { DataProduct } from "../../shared/models/productsModel/products.model";
 import { DataClient } from "../../shared/models/clientsModel/clients.model";
-import { Sale } from "../../shared/models/saleModel/sale.model";
+import { DataSale } from "../../shared/models/saleModel/sale.model";
 
 @Component({
   selector: 'modalSee-component',
@@ -13,7 +13,5 @@ import { Sale } from "../../shared/models/saleModel/sale.model";
 export class modalSeeComponent{
   constructor(public modal: NgbActiveModal){}
   @Input() clientOrProduct:any;
-  @Input() clientData:DataClient = {};
-  @Input() productData:DataProduct={};
-  @Input() saleData:Sale= {};
+  @Input() elementData:DataSale & DataProduct & DataClient = {};
 }

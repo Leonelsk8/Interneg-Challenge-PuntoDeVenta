@@ -3,10 +3,11 @@ import { APIservice } from "../../shared/services/API.services/API.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import {modalComponent} from '../modal/modal.component';
 import { modalSeeComponent } from "../modalSee/modalSee.component";
-import { Products } from "../../shared/models/productsModel/products.model";
-import { Clients } from "../../shared/models/clientsModel/clients.model";
-import { SaleModel } from "../../shared/models/saleModel/sale.model";
 import Swal from 'sweetalert2';
+import { ElementModel } from "../../shared/models/elementsModel/element.model";
+import { DataProduct } from "../../shared/models/productsModel/products.model";
+import { DataClient } from "../../shared/models/clientsModel/clients.model";
+import { DataSale } from "../../shared/models/saleModel/sale.model";
 
 @Component({
   selector: 'table-abm-component',
@@ -22,9 +23,7 @@ export class tableAbmComponent implements OnInit{
   reloadNewSearchButtons:boolean = false;
 
   valueInputSearch:string = '';
-  clientsData:Clients = {};
-  productsData:Products = {};
-  salesData:SaleModel = {};
+  elementData: ElementModel<DataSale & DataProduct & DataClient> = {}
 
   openAlert:boolean = false;
   typeAlert:string = '';
@@ -46,10 +45,8 @@ export class tableAbmComponent implements OnInit{
 
   getAllData(){
     this.api.getData(this.endpoint).subscribe(data=>{
-      this.productsData = this.optionClientOrProduct===1 && data;
-      this.clientsData = this.optionClientOrProduct===2 && data;
-      this.salesData = this.optionClientOrProduct===4 && data;
-      this.startLoader=false;
+      this.elementData = data;
+      this.startLoader = false;
       this.buttonDisabledChange(data.pagination.nextPage, data.pagination.prevPage);
     })
   }
@@ -60,78 +57,56 @@ export class tableAbmComponent implements OnInit{
     modalRef.componentInstance.dataElement= dataElement;
     modalRef.componentInstance.clientOrProduct = this.optionClientOrProduct===1 ? 'Producto' : 'Cliente';
     modalRef.componentInstance.DataChanged.subscribe((updatedData:any) => {
-      this.optionClientOrProduct===1 ? 
-      this.productsData = updatedData :
-      this.clientsData = updatedData;
+      this.elementData = updatedData;
       this.buttonDisabledChange(updatedData.pagination.nextPage, updatedData.pagination.prevPage);
     });
   }
 
   seeData(idElement:any){
     this.api.getDataById(idElement, this.endpoint).subscribe(data=>{
-      const modalRef = this.modalService.open(modalSeeComponent);
-      if(this.optionClientOrProduct===1){
-        modalRef.componentInstance.productData= data.data;
-        modalRef.componentInstance.clientOrProduct= 'Producto';
-      }else{
-        modalRef.componentInstance.clientData= data.data;
-        modalRef.componentInstance.clientOrProduct= 'Cliente';
-      }
+      const modalRef = this.modalService.open(modalSeeComponent,{
+        centered: this.optionClientOrProduct===4 && true,
+        size: this.optionClientOrProduct===4 ? 'lg' : 'md'
+      });
+      modalRef.componentInstance.elementData= data.data;
+      modalRef.componentInstance.clientOrProduct= this.optionClientOrProduct===1 ? 'Producto':
+      this.optionClientOrProduct===2 ? 'Cliente' : 'Venta'
     })
   }
 
   searchData(){
     if(this.optionClientOrProduct!==4){
       this.api.searchData(this.valueInputSearch, this.endpoint).subscribe(data=>{
-        this.productsData = this.optionClientOrProduct===1 && data;
-        this.clientsData = this.optionClientOrProduct===2 && data;
-        this.salesData = this.optionClientOrProduct===4 && data;
+        this.elementData = data;
         this.buttonDisabledChange(data.pagination.nextPage, data.pagination.prevPage);
         this.reloadNewSearchButtons = true;
       })
     }else if(this.optionClientOrProduct===4){
-      const newArray = this.salesData.data?.filter((sale)=>{
+      const newArray = this.elementData.data?.filter((sale)=>{
         let nameClient = sale.cliente?.nombre?.toLocaleLowerCase();
         let inputValue = this.valueInputSearch.toLowerCase();
         return nameClient?.includes(inputValue);
       })
-      this.salesData.data = newArray;
+      this.elementData.data = newArray;
       this.reloadNewSearchButtons = true;
       this.buttonDisabledChange(null, null);
     }
   }
  
   nextPage(){
-    const resultPerpage = this.optionClientOrProduct===1 ? this.productsData.pagination?.resultPerPage :
-    this.optionClientOrProduct===2  ? this.clientsData.pagination?.resultPerPage :
-    this.salesData.pagination?.resultPerPage;
-
-    const nextPage = this.optionClientOrProduct===1 ? this.productsData.pagination?.nextPage :
-    this.optionClientOrProduct===2  ? this.clientsData.pagination?.nextPage :
-    this.salesData.pagination?.nextPage;
-    
+    const resultPerpage = this.elementData.pagination?.resultPerPage;
+    const nextPage = this.elementData.pagination?.nextPage;
     this.api.changePagination(resultPerpage , nextPage, this.endpoint).subscribe(data=>{
-      this.productsData = this.optionClientOrProduct===1 && data;
-      this.clientsData = this.optionClientOrProduct===2 && data;
-      this.salesData = this.optionClientOrProduct===4 && data;
+      this.elementData = data;
       this.buttonDisabledChange(data.pagination.nextPage, data.pagination.prevPage);
     })
-    
   }
 
   prevPage(){
-    const resultPerpage = this.optionClientOrProduct===1 ? this.productsData.pagination?.resultPerPage :
-    this.optionClientOrProduct===2  ? this.clientsData.pagination?.resultPerPage :
-    this.salesData.pagination?.resultPerPage;
-
-    const prevPage = this.optionClientOrProduct===1 ? this.productsData.pagination?.prevPage :
-    this.optionClientOrProduct===2  ? this.clientsData.pagination?.prevPage :
-    this.salesData.pagination?.prevPage;
-    
+    const resultPerpage = this.elementData.pagination?.resultPerPage;
+    const prevPage = this.elementData.pagination?.prevPage;
     this.api.changePagination(resultPerpage , prevPage, this.endpoint).subscribe(data=>{
-      this.productsData = this.optionClientOrProduct===1 && data;
-      this.clientsData = this.optionClientOrProduct===2 && data;
-      this.salesData = this.optionClientOrProduct===4 && data;
+      this.elementData = data;
       this.buttonDisabledChange(data.pagination.nextPage, data.pagination.prevPage);
     })
   }
@@ -183,9 +158,7 @@ export class tableAbmComponent implements OnInit{
     const resultPerPageSelect:number = parseInt(event.target.value);
     if(resultPerPageSelect >= 1 && resultPerPageSelect<=10){
       this.api.changePagination(resultPerPageSelect , 1, this.endpoint).subscribe(data=>{
-        this.productsData = this.optionClientOrProduct===1 && data;
-        this.clientsData = this.optionClientOrProduct===2 && data;
-        this.salesData = this.optionClientOrProduct===4 && data;
+        this.elementData = data;
         this.buttonDisabledChange(data.pagination.nextPage, data.pagination.prevPage);
       })
     }

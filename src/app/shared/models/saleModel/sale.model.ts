@@ -14,16 +14,7 @@ export interface ProductsSelect{
   producto?:DataProduct;
 }
 
-interface Pagination{
-  actualPage?:number;
-  nextPage?:number;
-  prevPage?:number;
-  resultPerPage?: number;
-  totalPages?:number;
-  totalResults?:number;
-}
-
-export interface Sale{
+export interface DataSale{
   fecha?:string|any;
   cliente_id?:number;
   cliente?:DataClient;
@@ -34,9 +25,4 @@ export interface Sale{
   created_at?:string;
   numero?:string;
   updated_at?:string;
-}
-
-export interface SaleModel{
-  data?:Sale[];
-  pagination?:Pagination;
 }

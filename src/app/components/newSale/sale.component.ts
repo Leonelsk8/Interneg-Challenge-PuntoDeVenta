@@ -4,7 +4,7 @@ import { DataProduct } from "../../shared/models/productsModel/products.model";
 import { DataClient } from "../../shared/models/clientsModel/clients.model";
 import { ProductsSelect } from "../../shared/models/saleModel/sale.model";
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { Sale } from "../../shared/models/saleModel/sale.model";
+import { DataSale } from "../../shared/models/saleModel/sale.model";
 
 @Component({
   selector: 'sale-component',
@@ -147,7 +147,7 @@ export class saleComponent implements OnInit{
   }
 
   createSale(){
-    const payload:Sale={
+    const payload:DataSale={
       cliente_id: this.id_client,
       fecha: `${this.selectedDate?.year}/${this.selectedDate?.month}/${this.selectedDate?.day}`,
       importe_total: parseFloat(this.import_total),

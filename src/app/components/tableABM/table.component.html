@@ -5,7 +5,7 @@
       optionClientOrProduct===2 ? 'Clientes': 'Ventas'
     }}
   </h3>
-  <div class="d-flex justify-content-between">
+  <div class="d-flex justify-content-between flex-wrap">
     <div class="d-flex position-relative me-md-5">
       <input type="text" [(ngModel)]="valueInputSearch" class="input-search px-2 py-2" placeholder="Búsqueda" [maxLength]="30" >
       <button class="button-search px-2" type="button" (click)="searchData()">
@@ -51,32 +51,44 @@
       </div>
     </div>
     
-    <div class="col-12 products-table" *ngIf="optionClientOrProduct===1">
-      <div class="row product-row p-0" *ngFor="let product of productsData.data">
+    <div class="col-12 products-table">
+      <div class="row product-row p-0" *ngFor="let element of elementData.data">
         <div class="col-3 py-3 hiddenColumns border-start border-white">
-          <p class="mb-0">{{product.nombre}}</p>
+          <p class="mb-0">{{optionClientOrProduct!==4 ? element?.nombre :
+            element?.cliente!==null ? element?.cliente?.nombre : 'A consumidor final' }}</p>
         </div>
         <div class="col-3 py-3 hiddenColumns">
-          <p class="mb-0">{{product.codigo}}</p>
+          <p class="mb-0">
+            {{
+              optionClientOrProduct===1 ? element?.codigo :
+              optionClientOrProduct===2 ? element?.cuit_formateado : element?.cliente?.cuit_formateado
+            }}
+          </p>
         </div>
         <div class="col-2 py-3 hiddenColumns">
-          <p class="mb-0">${{product.precio}}</p>
+          <p class="mb-0">
+            {{optionClientOrProduct!==2 ? '$' : ''}}
+            {{
+              optionClientOrProduct===1 ? element?.precio :
+              optionClientOrProduct===2 ? element?.telefono : element?.importe_total
+            }}
+          </p>
         </div>
         <div class="col-4 py-3 d-flex justify-content-center hiddenColumns border-end border-white">
-          <button class="me-2 buttons-table px-3 d-flex align-items-center" (click)="seeData(product.id)">
+          <button class="me-2 buttons-table px-3 d-flex align-items-center" (click)="seeData(element.id)">
             <img src="../../../assets/icons/eye.svg" class="me-2">
-            <span>Ver</span>
+            <span>{{optionClientOrProduct!==4? 'Ver' : 'Ver más'}}</span>
           </button>
-          <button class="buttons-table px-3 d-flex align-items-center me-2" (click)="modalOpen(2,product)">
+          <button class="buttons-table px-3 d-flex align-items-center me-2" (click)="modalOpen(2,element)" *ngIf="optionClientOrProduct!==4">
             <img src="../../../assets/icons/edit.svg" class="me-2">
             <span>Editar</span>
           </button>
-          <button class="button-delete px-3 py-2" (click)="deleteData(product.id)">
+          <button class="button-delete px-3 py-2" (click)="deleteData(element.id)">
             X
           </button>
         </div>
       </div> 
-      <div class="row" *ngIf="productsData.data?.length === 0">
+      <div class="row" *ngIf="elementData.data?.length === 0">
         <div class="col-12 d-flex justify-content-center align-items-center py-5 my-5 text-white">
           <h2>No hay resultados.</h2>
         </div>
@@ -87,81 +99,8 @@
         </div>
       </div>
     </div>
-    
-    <div class="col-12 products-table" *ngIf="optionClientOrProduct===2">
-      <div class="row product-row p-0" *ngFor="let client of clientsData.data">
-        <div class="col-3 py-3 hiddenColumns border-start border-white">
-          <p class="mb-0">{{client.nombre}}</p>
-        </div>
-        <div class="col-3 py-3 hiddenColumns">
-          <p class="mb-0">{{client.cuit_formateado}}</p>
-        </div>
-        <div class="col-2 py-3 hiddenColumns">
-          <p class="mb-0">{{client.telefono}}</p>
-        </div>
-        <div class="col-4 py-3 d-flex justify-content-center hiddenColumns border-end border-white">
-          <button class="me-2 buttons-table px-3 d-flex align-items-center" (click)="seeData(client.id)">
-            <img src="../../../assets/icons/eye.svg" class="me-2">
-            <span>ver</span>
-          </button>
-          <button class="buttons-table px-3 d-flex align-items-center me-2" (click)="modalOpen(2,client)">
-            <img src="../../../assets/icons/edit.svg" class="me-2">
-            <span>Editar</span>
-          </button>
-          <button class="button-delete px-3 py-2" (click)="deleteData(client.id)">
-            X
-          </button>
-        </div>
-      </div> 
-      <div class="row" *ngIf="clientsData.data?.length === 0">
-        <div class="col-12 d-flex justify-content-center align-items-center py-5 my-5 text-white">
-          <h2>No hay resultados.</h2>
-        </div>
-      </div>
-      <div class="row h-100" *ngIf="startLoader">
-        <div class="col-12 d-flex loaderCont justify-content-center align-items-center">
-          <span class="loader"></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 products-table" *ngIf="optionClientOrProduct===4">
-      <div class="row product-row p-0" *ngFor="let sale of salesData.data">
-        <div class="col-3 py-3 hiddenColumns border-start border-white">
-          <p class="mb-0">{{sale.cliente?.nombre}}</p>
-        </div>
-        <div class="col-3 py-3 hiddenColumns">
-          <p class="mb-0">{{sale.cliente?.cuit_formateado}}</p>
-        </div>
-        <div class="col-2 py-3 hiddenColumns">
-          <p class="mb-0">${{sale.importe_total}}</p>
-        </div>
-        <div class="col-4 py-3 d-flex justify-content-center hiddenColumns border-end border-white">
-          <button class="me-2 buttons-table px-3 d-flex align-items-center" (click)="openModalSales(sale.id)">
-            <img src="../../../assets/icons/eye.svg" class="me-2">
-            <span>Ver más</span>
-          </button>
-          <button class="button-delete px-3 py-2" (click)="deleteData(sale.id)">
-            X
-          </button>
-        </div>
-      </div> 
-      <div class="row" *ngIf="salesData.data?.length === 0">
-        <div class="col-12 d-flex justify-content-center align-items-center py-5 my-5 text-white">
-          <h2>No hay resultados.</h2>
-        </div>
-      </div>
-      <div class="row h-100" *ngIf="startLoader">
-        <div class="col-12 d-flex loaderCont justify-content-center align-items-center">
-          <span class="loader"></span>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
-
-
-
 
 <div class="col-12 d-flex flex-column-reverse flex-md-row align-items-md-center justify-content-md-between mt-4">
   <div>

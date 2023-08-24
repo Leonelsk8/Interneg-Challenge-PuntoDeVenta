@@ -20,3 +20,9 @@
   overflow-x: hidden;
   border-radius: 12px;
 }
+
+@media (width < 768px){
+  .productsContent{
+    font-size: 0.9em;
+  }
+}

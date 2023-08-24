@@ -8,62 +8,62 @@
   <div class="d-flex flex-column align-items-center" *ngIf="clientOrProduct==='Producto'">
     <div class="d-flex flex-column align-items-center">
       <h5>NOMBRE</h5>
-      <p>{{productData.nombre}}</p>
+      <p>{{elementData.nombre}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>CODIGO</h5>      
-      <p>{{productData.codigo}}</p>
+      <p>{{elementData.codigo}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>PRECIO</h5>
-      <p>${{productData.precio}}</p>
+      <p>${{elementData.precio}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>NUMERO</h5>
-      <p>{{productData.numero}}</p>
+      <p>{{elementData.numero}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>ID</h5>
-      <p>{{productData.id}}</p>
+      <p>{{elementData.id}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>CREADO</h5>
-      <p>{{productData.created_at?.slice(0,10)}}</p>
+      <p>{{elementData.created_at?.slice(0,10)}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>EDITADO</h5>
-      <p>{{productData.updated_at?.slice(0,10)}}</p>
+      <p>{{elementData.updated_at?.slice(0,10)}}</p>
     </div>
   </div>
 
   <div class="d-flex flex-column align-items-center" *ngIf="clientOrProduct==='Cliente'">
     <div class="d-flex flex-column align-items-center">
       <h5>NOMBRE</h5>
-      <p>{{clientData.nombre}}</p>
+      <p>{{elementData.nombre}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>CUIT</h5>      
-      <p>{{clientData.cuit_formateado}}</p>
+      <p>{{elementData.cuit_formateado}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>EMAIL</h5>
-      <p>{{clientData.email}}</p>
+      <p>{{elementData.email}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>TELEFONO</h5>
-      <p>{{clientData.telefono}}</p>
+      <p>{{elementData.telefono}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>DOMICILIO</h5>
-      <p>{{clientData.domicilio}}</p>
+      <p>{{elementData.domicilio}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>CREADO</h5>
-      <p>{{clientData.created_at?.slice(0,10)}}</p>
+      <p>{{elementData.created_at?.slice(0,10)}}</p>
     </div>
     <div class="d-flex flex-column align-items-center">
       <h5>EDITADO</h5>
-      <p>{{clientData.updated_at?.slice(0,10)}}</p>
+      <p>{{elementData.updated_at?.slice(0,10)}}</p>
     </div>
   </div>
 
@@ -71,20 +71,20 @@
     <div class="col-6 productsRow p-0 rounded-start">
       <h5 class="productHead mb-0 text-white p-3 border-bottom border-white">Datos del cliente</h5>
       <div class="p-3">
-        <p><b>Nombre: </b>{{saleData.cliente?.nombre}}</p>
-        <p><b>CUIT: </b>{{saleData.cliente?.cuit_formateado}}</p>
-        <p><b>Telefono: </b>{{saleData.cliente?.telefono}}</p>
-        <p><b>Domicilio: </b>{{saleData.cliente?.domicilio}}</p>
-        <p><b>Email: </b>{{saleData.cliente?.email}}</p>
+        <p><b>Nombre: </b>{{elementData.cliente!==null ? elementData.cliente?.nombre : 'A consumidor final'}}</p>
+        <p><b>CUIT: </b>{{elementData.cliente?.cuit_formateado}}</p>
+        <p><b>Telefono: </b>{{elementData.cliente?.telefono}}</p>
+        <p><b>Domicilio: </b>{{elementData.cliente?.domicilio}}</p>
+        <p><b>Email: </b>{{elementData.cliente?.email}}</p>
       </div>
     </div>
     <div class="col-6 productsRow p-0 rounded-end">
       <h5 class="productHead mb-0 text-white p-3 border-bottom border-white">Info de la venta</h5>
       <div class="p-3">
-        <p><b>Número: </b>{{saleData.numero}}</p>
-        <p><b>Fecha: </b>{{saleData.fecha?.slice(0,10)}}</p>
-        <p><b>Creada: </b>{{saleData.created_at?.slice(0,10)}}</p>
-        <p><b>Editada: </b>{{saleData.updated_at?.slice(0,10)}}</p>
+        <p><b>Número: </b>{{elementData.numero}}</p>
+        <p><b>Fecha: </b>{{elementData.fecha?.slice(0,10)}}</p>
+        <p><b>Creada: </b>{{elementData.created_at?.slice(0,10)}}</p>
+        <p><b>Editada: </b>{{elementData.updated_at?.slice(0,10)}}</p>
       </div>
     </div>
     <h5 class="mt-2">Productos seleccionados:</h5>
@@ -103,23 +103,23 @@
           <p>Importe total</p>
         </div>
       </div>
-        <div class="row productsRow" *ngFor="let item of saleData.items">
-          <div class="col-2 py-1">
-            <p>{{item.cantidad}}</p>
-          </div>
-          <div class="col-3 py-1">
-            <p>{{item.producto?.nombre}}</p>
-          </div>
-          <div class="col-3 py-1">
-            <p>${{item.producto?.precio}}</p>
-          </div>
-          <div class="col-4 py-1">
-            <p>${{item.importe_total}}</p>
+      <div class="row productsRow" *ngFor="let item of elementData?.items">
+        <div class="col-2 py-1">
+          <p>{{item.cantidad}}</p>
+        </div>
+        <div class="col-3 py-1">
+          <p>{{item.producto?.nombre}}</p>
+        </div>
+        <div class="col-3 py-1">
+          <p>${{item.producto?.precio}}</p>
+        </div>
+        <div class="col-4 py-1">
+          <p>${{item.importe_total}}</p>
         </div>
       </div>
     </div>
     <div class="col-12 mt-2 py-2">
-      <h5 class="text-end mb-0">Total a pagar: ${{saleData.importe_total}}</h5>
+      <h5 class="text-end mb-0">Total a pagar: ${{elementData.importe_total}}</h5>
     </div>
   </div>
 </div>
