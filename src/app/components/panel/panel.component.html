@@ -54,6 +54,9 @@
       <div *ngIf="optionClientOrProduct===3" class="row">
         <sale-component></sale-component>
       </div>
+      <div *ngIf="optionClientOrProduct===4" class="row">
+        <table-abm-component [optionClientOrProduct]="optionClientOrProduct"></table-abm-component>
+      </div>
     </div>
   </div>
 </div>

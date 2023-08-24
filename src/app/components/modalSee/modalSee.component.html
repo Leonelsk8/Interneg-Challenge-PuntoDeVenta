@@ -66,4 +66,60 @@
       <p>{{clientData.updated_at?.slice(0,10)}}</p>
     </div>
   </div>
+
+  <div class="row" *ngIf="clientOrProduct==='Venta'">
+    <div class="col-6 productsRow p-0 rounded-start">
+      <h5 class="productHead mb-0 text-white p-3 border-bottom border-white">Datos del cliente</h5>
+      <div class="p-3">
+        <p><b>Nombre: </b>{{saleData.cliente?.nombre}}</p>
+        <p><b>CUIT: </b>{{saleData.cliente?.cuit_formateado}}</p>
+        <p><b>Telefono: </b>{{saleData.cliente?.telefono}}</p>
+        <p><b>Domicilio: </b>{{saleData.cliente?.domicilio}}</p>
+        <p><b>Email: </b>{{saleData.cliente?.email}}</p>
+      </div>
+    </div>
+    <div class="col-6 productsRow p-0 rounded-end">
+      <h5 class="productHead mb-0 text-white p-3 border-bottom border-white">Info de la venta</h5>
+      <div class="p-3">
+        <p><b>Número: </b>{{saleData.numero}}</p>
+        <p><b>Fecha: </b>{{saleData.fecha?.slice(0,10)}}</p>
+        <p><b>Creada: </b>{{saleData.created_at?.slice(0,10)}}</p>
+        <p><b>Editada: </b>{{saleData.updated_at?.slice(0,10)}}</p>
+      </div>
+    </div>
+    <h5 class="mt-2">Productos seleccionados:</h5>
+    <div class="col-12 mt-2 productsContent"> 
+      <div class="row productHead border-bottom border-white">
+        <div class="col-2 border-end border-dark py-2">
+          <p>Cant.</p>
+        </div>
+        <div class="col-3 border-end border-dark py-2">
+          <p>Nombre</p>
+        </div>
+        <div class="col-3 border-end border-dark py-2">
+          <p>Precio</p>
+        </div>
+        <div class="col-4 py-2">
+          <p>Importe total</p>
+        </div>
+      </div>
+        <div class="row productsRow" *ngFor="let item of saleData.items">
+          <div class="col-2 py-1">
+            <p>{{item.cantidad}}</p>
+          </div>
+          <div class="col-3 py-1">
+            <p>{{item.producto?.nombre}}</p>
+          </div>
+          <div class="col-3 py-1">
+            <p>${{item.producto?.precio}}</p>
+          </div>
+          <div class="col-4 py-1">
+            <p>${{item.importe_total}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 mt-2 py-2">
+      <h5 class="text-end mb-0">Total a pagar: ${{saleData.importe_total}}</h5>
+    </div>
+  </div>
 </div>

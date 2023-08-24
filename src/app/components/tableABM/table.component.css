@@ -3,6 +3,12 @@
   height: 100%;
 }
 
+.products-table{
+  height: 23em;
+  overflow-y: scroll;
+  background-color: #0000005e;
+}
+
 .products-table .product-row:nth-child(2n-1){
   background-color: #f1f1f1;
   color:#000000;
@@ -45,7 +51,8 @@
 }
 
 .loaderCont{
-  height: 20em;
+  height: 100%;
+  width: 100%;
   background-color: #0000005e;
 }
 
