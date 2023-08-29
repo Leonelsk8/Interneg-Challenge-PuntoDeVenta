@@ -121,8 +121,13 @@ export class tableAbmComponent implements OnInit , OnDestroy {
     }
   }
 
-  changePage(value: string) {
-    const prevOrNext = value === 'next' ? this.buttonNext : this.buttonPrev;
+  changePage(value:number|string) {
+    let prevOrNext;
+    if(typeof value === 'string'){
+      prevOrNext = value === 'next' ? this.buttonNext : this.buttonPrev;
+    }else{
+      prevOrNext = value;
+    }
     this.elementData$ = this.api
       .changePagination(this.resultPerPage, prevOrNext, this.endpoint)
       .pipe(

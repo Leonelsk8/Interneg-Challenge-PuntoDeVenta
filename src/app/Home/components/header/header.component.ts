@@ -31,5 +31,6 @@ export class headerComponent implements OnInit {
 
   changePanel() {
     this.sidebarService.openSidebar();
+    this.auxBoolean = !this.auxBoolean
   }
 }

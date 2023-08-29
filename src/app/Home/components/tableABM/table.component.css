@@ -106,6 +106,31 @@
   opacity: 50%;
 }
 
+.listPages{
+  text-decoration: none;
+  list-style: none;
+  transition: 0.3s;
+}
+
+.listPages:hover{
+  opacity: 100%;
+  transform: scale(110%);
+}
+
+.pageActive{
+  opacity: 100%;
+  transform: scale(110%);
+}
+
+.pageNoActive{
+  opacity: 70%;
+}
+
+.buttListPages{
+  border:none;
+  outline: none;
+  background-color: transparent;
+}
 
 @media (width < 768px){
   .tableMobile{

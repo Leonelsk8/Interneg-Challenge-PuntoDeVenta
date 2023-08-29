@@ -13,18 +13,32 @@
         placeholder="Búsqueda"
         [maxLength]="30"
       />
-      <button class="button-search px-2" type="button" (click)="searchData()">
+      <button
+        class="button-search px-2"
+        type="button"
+        (click)="searchData()"
+        ngbTooltip="Búscar!"
+        placement="top"
+      >
         <img src="assets/icons/search.svg" />
       </button>
       <div
         class="reloadNewSearch bg-secondary d-flex"
         *ngIf="reloadNewSearchButtons"
       >
-        <button (click)="reloadOrSearchData(true)">
+        <button
+          (click)="reloadOrSearchData(true)"
+          ngbTooltip="Recargar todos los elemento!"
+          placement="top"
+        >
           <img src="assets/icons/reload.svg" class="me-2" />
           <span>Recargar</span>
         </button>
-        <button (click)="reloadOrSearchData(false)">
+        <button
+          (click)="reloadOrSearchData(false)"
+          ngbTooltip="Buscar nuevamente!"
+          placement="top"
+        >
           <img src="assets/icons/search.svg" class="me-2" />
           <span>Búscar</span>
         </button>
@@ -116,6 +130,8 @@
             <button
               class="me-2 buttons-table px-3 d-flex align-items-center"
               (click)="seeData(element.id)"
+              ngbTooltip="ver más información!"
+              placement="top"
             >
               <img src="assets/icons/eye.svg" class="me-2" />
               <span>{{ endpoint !== "ventas" ? "Ver" : "Ver más" }}</span>
@@ -123,6 +139,8 @@
             <button
               class="buttons-table px-3 d-flex align-items-center me-2"
               (click)="modalOpen(2, element)"
+              ngbTooltip="Editar elemento!"
+              placement="top"
               *ngIf="endpoint !== 'ventas'"
             >
               <img src="assets/icons/edit.svg" class="me-2" />
@@ -131,6 +149,8 @@
             <button
               class="button-delete px-3 py-2"
               (click)="deleteData(element.id)"
+              ngbTooltip="Eliminar elemento!"
+              placement="top"
             >
               X
             </button>
@@ -191,10 +211,10 @@
       <option value="10">Ver 10 items por pagina.</option>
     </select>
   </div>
-  <div class="d-flex justify-content-center mb-3 mb-md-0">
+  <div class="d-flex justify-content-center mb-3 mb-md-0 flex-wrap">
     <button
       [disabled]="buttonPrev === null"
-      class="me-3 px-3 d-flex align-items-center py-2"
+      class="me-1 px-3 d-flex align-items-center py-2"
       [ngClass]="{
         'buttons-disabled': buttonPrev === null,
         'buttons-table': buttonPrev !== null
@@ -204,9 +224,31 @@
       <img src="assets/icons/arrowLeft.svg" class="me-2" />
       <span>Anterior</span>
     </button>
+    <div
+      *ngIf="elementData$ | async as element"
+      class="d-flex align-items-center"
+    >
+      <ul class="d-flex align-items-center justify-content-center m-0 p-0">
+        <li
+          *ngFor="
+            let num of [].constructor(element.pagination?.totalPages);
+            let i = index
+          "
+          class="listPages"
+          [ngClass]="{
+            'pageActive': element.pagination?.actualPage === i + 1,
+            'pageNoActive': element.pagination?.actualPage !== i + 1
+          }"
+        >
+          <button (click)="changePage(i + 1)" class="buttListPages text-dark">
+            {{ i + 1 }}
+          </button>
+        </li>
+      </ul>
+    </div>
     <button
       [disabled]="buttonNext === null"
-      class="px-3 d-flex align-items-center py-2"
+      class="ms-1 px-3 d-flex align-items-center py-2"
       [ngClass]="{
         'buttons-disabled': buttonNext === null,
         'buttons-table': buttonNext !== null

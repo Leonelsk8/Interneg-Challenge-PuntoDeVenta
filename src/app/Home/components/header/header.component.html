@@ -44,7 +44,11 @@
     </h4>
   </div>
   <div>
-    <button class="d-flex align-items-center button-exit" (click)="logout()">
+    <button 
+      class="d-flex align-items-center button-exit" 
+      (click)="logout()"
+      ngbTooltip="Cerrar sesión!" placement="top"
+    >
       <img src="assets/icons/exit.svg" alt="icon exit" class="me-2" />
       Salir
     </button>

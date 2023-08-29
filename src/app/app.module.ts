@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { TokenInterceptorService } from './shared/interceptors/authToken.interceptor';
-
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -17,7 +16,7 @@ import { TokenInterceptorService } from './shared/interceptors/authToken.interce
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    NgbDatepickerModule,
+    NgbDatepickerModule
   ],
   providers: [
     {
