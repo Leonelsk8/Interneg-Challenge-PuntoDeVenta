@@ -1,0 +1,19 @@
+<header-component />
+<div class="container-fluid vh-100">
+  <div class="row vh-100 bg-colorDark">
+    <div
+      class="col-lg-3 bg-colorDark py-4 h-100"
+      [ngClass]="{
+        'PanelLeftMobile': sidebarOpen,
+        'd-none d-lg-flex': !sidebarOpen
+      }"
+    >
+      <sidebar-component />
+    </div>
+    <div class="col-12 col-lg-9 column-right p-4">
+      <div class="row">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,32 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
-import { tableAbmComponent } from './components/tableABM/table.component';
-import { loginComponent } from './components/login/login.component';
-import { LoginPage } from './pages/Login/login.page';
-import { HomePage } from './pages/Home/home.page';
-import { headerComponent } from './components/header/header.component';
-import { panelComponent } from './components/panel/panel.component';
-import { HttpClientModule } from '@angular/common/http';
-import { NgbDatepickerModule } from "@ng-bootstrap/ng-bootstrap";
-import { modalComponent } from './components/modal/modal.component';
-import { modalSeeComponent } from './components/modalSee/modalSee.component';
-import { saleComponent } from './components/newSale/sale.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { TokenInterceptorService } from './shared/interceptors/authToken.interceptor';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    loginComponent,
-    headerComponent,
-    panelComponent,
-    tableAbmComponent,
-    modalComponent,
-    modalSeeComponent,
-    saleComponent,
-    LoginPage,
-    HomePage
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     NgbModule,
@@ -38,7 +19,13 @@ import { saleComponent } from './components/newSale/sale.component';
     HttpClientModule,
     NgbDatepickerModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

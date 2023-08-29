@@ -2,7 +2,7 @@ export interface DataClient{
   nombre?:string;
   cuit?:string;
   cuit_formateado?:string;
-  email?:number;
+  email?:string;
   id?:number;
   domicilio?:string;
   telefono?:string;

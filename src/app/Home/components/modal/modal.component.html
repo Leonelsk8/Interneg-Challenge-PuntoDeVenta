@@ -1,0 +1,150 @@
+<div class="modal-header headModal">
+  <div class="d-flex">
+    <h4 [ngSwitch]="optionCreateEdit">
+      <span *ngSwitchCase="1">Crear</span>
+      <span *ngSwitchCase="2">Editar</span>
+    </h4>
+    <h4 [ngSwitch]="endpoint">
+      <span *ngSwitchCase="'productos'">Producto</span>
+      <span *ngSwitchCase="'clientes'">Cliente</span>
+    </h4>
+  </div>
+  <button
+    type="button"
+    class="close buttonCloseModal px-3 py-2"
+    aria-label="Close"
+    (click)="modal.dismiss()"
+  >
+    <span aria-hidden="true">X</span>
+  </button>
+</div>
+<div class="modal-body bodyModal">
+  <form
+    [formGroup]="endpoint === 'productos' ? productForm : clientForm"
+    (ngSubmit)="onSubmit()"
+    [ngSwitch]="endpoint"
+  >
+    <div *ngSwitchCase="'productos'">
+      <div class="form-group">
+        <label for="nameProduct">Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nameProduct"
+          placeholder="Nombre"
+          formControlName="nombre"
+          maxlength="30"
+        />
+      </div>
+      <div class="d-flex justify-content-between mt-2">
+        <div class="form-group">
+          <label for="codeProduct">Codigo</label>
+          <input
+            type="text"
+            class="form-control"
+            id="codeProduct"
+            placeholder="Codigo"
+            formControlName="codigo"
+            maxlength="30"
+          />
+        </div>
+        <div class="form-group">
+          <label for="priceProduct" class="me-2">Precio $</label>
+          <input
+            type="number"
+            class="form-control"
+            id="priceProduct"
+            step="0.01"
+            formControlName="precio"
+            (input)="onInput($event)"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'clientes'">
+      <div class="d-flex justify-content-between mt-2">
+        <div class="form-group">
+          <label for="nameClient">Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nameClient"
+            placeholder="Nombre"
+            formControlName="nombre"
+            maxlength="30"
+          />
+        </div>
+        <div class="form-group">
+          <label for="cuitClient">CUIT</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cuitClient"
+            placeholder="Cuit"
+            formControlName="cuit"
+            maxlength="30"
+          />
+        </div>
+      </div>
+      <div class="d-flex justify-content-between mt-2">
+        <div class="form-group">
+          <label for="domicilioClient">Domicilio</label>
+          <input
+            type="text"
+            class="form-control"
+            id="domicilioClient"
+            placeholder="Domicilio"
+            formControlName="domicilio"
+            maxlength="30"
+          />
+        </div>
+        <div class="form-group">
+          <label for="telefonoClient">Telefono</label>
+          <input
+            type="text"
+            class="form-control"
+            id="telefonoClient"
+            placeholder="Telefono"
+            formControlName="telefono"
+            maxlength="30"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="emailClient">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="emailClient"
+          placeholder="Email"
+          formControlName="email"
+          maxlength="30"
+        />
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="butonModal mt-3 py-2"
+      [disabled]="
+        endpoint === 'productos' ? productForm.invalid : clientForm.invalid
+      "
+      [ngClass]="{
+        'modalButtDisabled':
+          endpoint === 'productos' ? productForm.invalid : clientForm.invalid
+      }"
+    >
+      {{ optionCreateEdit === 1 ? "Crear" : "Editar" }}
+    </button>
+  </form>
+</div>
+
+<ngb-alert
+  *ngIf="openAlert"
+  [type]="typeAlert"
+  (closed)="openAlert = false"
+  class="alert"
+>
+  {{ messageAlert }}
+</ngb-alert>

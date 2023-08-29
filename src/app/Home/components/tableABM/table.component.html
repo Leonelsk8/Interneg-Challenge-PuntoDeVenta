@@ -1,0 +1,229 @@
+<div class="col-12 d-lg-flex justify-content-between">
+  <h3 class="text-center text-lg-start mb-3 mb-lg-0" [ngSwitch]="endpoint">
+    <span *ngSwitchCase="'productos'">Productos</span>
+    <span *ngSwitchCase="'clientes'">Clientes</span>
+    <span *ngSwitchCase="'ventas'">Ventas</span>
+  </h3>
+  <div class="d-flex justify-content-between flex-wrap">
+    <div class="d-flex position-relative me-md-5" *ngIf="endpoint !== 'ventas'">
+      <input
+        type="text"
+        [(ngModel)]="valueInputSearch"
+        class="input-search px-2 py-2"
+        placeholder="Búsqueda"
+        [maxLength]="30"
+      />
+      <button class="button-search px-2" type="button" (click)="searchData()">
+        <img src="assets/icons/search.svg" />
+      </button>
+      <div
+        class="reloadNewSearch bg-secondary d-flex"
+        *ngIf="reloadNewSearchButtons"
+      >
+        <button (click)="reloadOrSearchData(true)">
+          <img src="assets/icons/reload.svg" class="me-2" />
+          <span>Recargar</span>
+        </button>
+        <button (click)="reloadOrSearchData(false)">
+          <img src="assets/icons/search.svg" class="me-2" />
+          <span>Búscar</span>
+        </button>
+      </div>
+    </div>
+    <button
+      *ngIf="endpoint !== 'ventas'"
+      class="buttons-table px-3 d-flex align-items-center"
+      (click)="modalOpen(1, null)"
+    >
+      <img src="assets/icons/plus.svg" class="me-2" />
+      <span>Crear</span>
+    </button>
+  </div>
+</div>
+
+<div class="tableMobile m-0 p-0">
+  <div class="row p-0 m-0 contentTableMobile">
+    <div class="col-12 mt-4">
+      <div class="row fw-semibold bg-colorDark">
+        <div
+          class="col-3 py-3 border-end border-1 border-secondary"
+          [ngSwitch]="endpoint"
+        >
+          <p class="text-white mb-0" *ngSwitchCase="'ventas'">Cliente</p>
+          <p class="text-white mb-0" *ngSwitchDefault>Nombre</p>
+        </div>
+        <div
+          class="col-3 py-3 border-end border-1 border-secondary"
+          [ngSwitch]="endpoint"
+        >
+          <p class="text-white mb-0" *ngSwitchCase="'productos'">Codigo</p>
+          <p class="text-white mb-0" *ngSwitchDefault>Cuit</p>
+        </div>
+        <div
+          class="col-2 py-3 border-end border-1 border-secondary"
+          [ngSwitch]="endpoint"
+        >
+          <p class="text-white mb-0" *ngSwitchCase="'productos'">Precio</p>
+          <p class="text-white mb-0" *ngSwitchCase="'clientes'">Telefono</p>
+          <p class="text-white mb-0" *ngSwitchCase="'ventas'">Importe</p>
+        </div>
+        <div class="col-4 py-3 border-end border-1 border-secondary">
+          <p class="text-white text-center mb-0">Acciones</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 products-table">
+      <div *ngIf="elementData$ | async as data; else LoaderOrError">
+        <div class="row product-row p-0" *ngFor="let element of data.data">
+          <div
+            class="col-3 py-3 hiddenColumns border-start border-white"
+            [ngSwitch]="endpoint"
+          >
+            <p class="mb-0" *ngSwitchCase="'ventas'">
+              <span *ngIf="element.cliente !== null; else noClientSelect">{{
+                element.cliente?.nombre
+              }}</span>
+              <ng-template #noClientSelect
+                ><span>A consumidor final</span></ng-template
+              >
+            </p>
+            <p class="mb-0" *ngSwitchDefault>{{ element?.nombre }}</p>
+          </div>
+          <div class="col-3 py-3 hiddenColumns" [ngSwitch]="endpoint">
+            <p class="mb-0" *ngSwitchCase="'productos'">{{ element.codigo }}</p>
+            <p class="mb-0" *ngSwitchCase="'clientes'">
+              {{ element.cuit_formateado }}
+            </p>
+            <p class="mb-0" *ngSwitchCase="'ventas'">
+              {{ element.cliente?.cuit_formateado }}
+            </p>
+          </div>
+          <div class="col-2 py-3 hiddenColumns" [ngSwitch]="endpoint">
+            <p class="mb-0" *ngSwitchCase="'productos'">
+              ${{ element.precio }}
+            </p>
+            <p class="mb-0" *ngSwitchCase="'clientes'">
+              {{ element.telefono }}
+            </p>
+            <p class="mb-0" *ngSwitchCase="'ventas'">
+              ${{ element.importe_total }}
+            </p>
+          </div>
+          <div
+            class="col-4 py-3 d-flex justify-content-center hiddenColumns border-end border-white"
+          >
+            <button
+              class="me-2 buttons-table px-3 d-flex align-items-center"
+              (click)="seeData(element.id)"
+            >
+              <img src="assets/icons/eye.svg" class="me-2" />
+              <span>{{ endpoint !== "ventas" ? "Ver" : "Ver más" }}</span>
+            </button>
+            <button
+              class="buttons-table px-3 d-flex align-items-center me-2"
+              (click)="modalOpen(2, element)"
+              *ngIf="endpoint !== 'ventas'"
+            >
+              <img src="assets/icons/edit.svg" class="me-2" />
+              <span>Editar</span>
+            </button>
+            <button
+              class="button-delete px-3 py-2"
+              (click)="deleteData(element.id)"
+            >
+              X
+            </button>
+          </div>
+        </div>
+        <div class="row" *ngIf="data.data?.length === 0">
+          <div
+            class="col-12 d-flex justify-content-center align-items-center py-5 my-5 text-white"
+          >
+            <h2>No hay resultados.</h2>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #LoaderOrError>
+        <div class="row h-100" *ngIf="hasError; else loader">
+          <div
+            class="col-12 d-flex loaderCont justify-content-center align-items-center"
+          >
+            <span class="text-white"
+              >Ha ocurrido un error, refresca la página o inténtalo más
+              tarde</span
+            >
+          </div>
+        </div>
+        <ng-template #loader>
+          <div class="row h-100">
+            <div
+              class="col-12 d-flex loaderCont justify-content-center align-items-center"
+            >
+              <span class="loader"></span>
+            </div>
+          </div>
+        </ng-template>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<div
+  class="col-12 d-flex flex-column-reverse flex-md-row align-items-md-center justify-content-md-between mt-4"
+>
+  <div>
+    <select
+      class="form-select"
+      [(ngModel)]="resultPerPageSelect"
+      (change)="changeItemPerPage()"
+    >
+      <option value="1">Ver 1 items por pagina</option>
+      <option value="2">Ver 2 items por pagina</option>
+      <option value="3">Ver 3 items por pagina</option>
+      <option value="4">Ver 4 items por pagina</option>
+      <option value="5">Ver 5 items por pagina</option>
+      <option value="6">Ver 6 items por pagina</option>
+      <option value="7">Ver 7 items por pagina</option>
+      <option value="8">Ver 8 items por pagina</option>
+      <option value="9">Ver 9 items por pagina</option>
+      <option value="10">Ver 10 items por pagina.</option>
+    </select>
+  </div>
+  <div class="d-flex justify-content-center mb-3 mb-md-0">
+    <button
+      [disabled]="buttonPrev === null"
+      class="me-3 px-3 d-flex align-items-center py-2"
+      [ngClass]="{
+        'buttons-disabled': buttonPrev === null,
+        'buttons-table': buttonPrev !== null
+      }"
+      (click)="changePage('prev')"
+    >
+      <img src="assets/icons/arrowLeft.svg" class="me-2" />
+      <span>Anterior</span>
+    </button>
+    <button
+      [disabled]="buttonNext === null"
+      class="px-3 d-flex align-items-center py-2"
+      [ngClass]="{
+        'buttons-disabled': buttonNext === null,
+        'buttons-table': buttonNext !== null
+      }"
+      (click)="changePage('next')"
+    >
+      <span>Siguiente</span>
+      <img src="assets/icons/arrowRight.svg" class="ms-2" />
+    </button>
+  </div>
+</div>
+
+<ngb-alert
+  *ngIf="openAlert"
+  [type]="typeAlert"
+  (closed)="openAlert = false"
+  class="alert"
+>
+  {{ messageAlert }}
+</ngb-alert>
